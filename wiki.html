@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szczegóły Projektu - Julian</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #9d7cff; 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0b0b12;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .bg-blur {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(130, 80, 255, 0.1) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        /* Główny kontener */
+        .info-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Przycisk wyzwalający okno */
+        .open-modal-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .open-modal-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* --- STYL OKNA MODALNEGO --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none; /* Ukryte na start */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #12121a;
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 450px;
+            width: 85%;
+            position: relative;
+            transform: translateY(20px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-content h2 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .modal-content ul {
+            text-align: left;
+            padding: 0;
+            list-style: none;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .modal-content li {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 5px;
+        }
+
+        .close-btn {
+            margin-top: 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-blur"></div>
+
+    <div class="info-card">
+        <h1>Projekt Alpha</h1>
+        <p>Kliknij poniżej, aby zobaczyć szczegółową dokumentację i wymagania techniczne tego skryptu.</p>
+        <button class="open-modal-btn" onclick="toggleModal()">Szczegóły projektu</button>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <h2>Specyfikacja</h2>
+            <ul>
+                <li><strong>Wersja:</strong> 2.4.0 (Stable)</li>
+                <li><strong>Wymagania:</strong> Python 3.9+, Node.js 16+</li>
+                <li><strong>Ostatni skan:</strong> Bezpieczny (Brak wirusów)</li>
+                <li><strong>Licencja:</strong> MIT Personal Use</li>
+                <li><strong>Wielkość po rozpakowaniu:</strong> 124 MB</li>
+            </ul>
+            <button class="close-btn" onclick="toggleModal()">Zamknij</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.toggle('active');
+        }
+
+        // Zamykanie po kliknięciu poza okienkiem
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalOverlay');
+            if (event.target == modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
