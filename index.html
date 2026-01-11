@@ -3,180 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Julian | Home</title>
+    <title>Julian | Official Source</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --accent-color: #9d7cff;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg: #030305;
+            --accent: #9d7cff;
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: white;
             font-family: 'Inter', sans-serif;
-            background-color: #0d0d14;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* Tło z poświatami */
-        .bg-blobs {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .blob {
-            position: absolute;
-            background: radial-gradient(circle, rgba(130, 80, 255, 0.2) 0%, rgba(0,0,0,0) 70%);
-            filter: blur(80px);
-            border-radius: 50%;
-        }
-
-        .blob-1 { width: 500px; height: 500px; top: -100px; left: -100px; }
-        .blob-2 { width: 400px; height: 400px; bottom: -50px; right: -50px; }
-
-        /* Karta Główna */
-        .hero-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 35px;
-            padding: 60px 40px;
-            text-align: center;
-            max-width: 550px;
-            width: 90%;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--accent-color), #5031a5);
-            border-radius: 50%;
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            box-shadow: 0 0 20px rgba(157, 124, 255, 0.3);
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin: 0 0 15px 0;
-            letter-spacing: -1px;
-        }
-
-        p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.1rem;
+            overflow-x: hidden;
             line-height: 1.6;
+        }
+
+        /* TŁO - PEŁNY EKRAN */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(157, 124, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 124, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .glow-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(157, 124, 255, 0.1), transparent 40%),
+                        radial-gradient(circle at 10% 80%, rgba(0, 212, 255, 0.05), transparent 40%);
+            z-index: -1;
+        }
+
+        /* NAGŁÓWEK */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 8%;
+            border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
+        .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 30px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* SEKCJA HERO - FULL WIDTH */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 8%;
+            min-height: 80vh;
+        }
+
+        .hero-content { max-width: 650px; }
+        .hero-content h1 {
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom right, #fff, #555);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.5);
             margin-bottom: 40px;
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
         }
 
-        /* Przyciski nawigacyjne */
-        .nav-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .btn-primary {
-            background: white;
-            color: black;
-            text-decoration: none;
-            padding: 16px 40px;
-            border-radius: 15px;
-            font-weight: 700;
-            width: 80%;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.03);
-            background: var(--accent-color);
-            color: white;
-            box-shadow: 0 10px 25px rgba(157, 124, 255, 0.4);
-        }
-
-        .btn-secondary {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .btn-secondary:hover {
-            color: white;
-        }
-
-        .social-icons {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
+        /* PANEL BOCZNY / STATYSTYKI */
+        .side-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .social-icons a {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 1.2rem;
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
             transition: 0.3s;
         }
+        .stat-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .stat-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; }
+        .stat-card span { display: block; font-size: 1.5rem; font-weight: 800; }
+        .stat-card label { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-transform: uppercase; }
 
-        .social-icons a:hover {
-            color: var(--accent-color);
+        /* PRZYCISK GŁÓWNY */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            padding: 20px 45px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(157, 124, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(157, 124, 255, 0.5);
+        }
+
+        /* SEKCJA Z PROJEKTAMI - PODGLĄD */
+        .featured-section {
+            padding: 100px 8%;
+            background: rgba(255,255,255,0.01);
+        }
+
+        .section-title { margin-bottom: 50px; font-size: 2rem; }
+        .section-title span { color: var(--accent); }
+
+        /* MOBILE */
+        @media (max-width: 1024px) {
+            .hero { flex-direction: column; text-align: center; }
+            .hero-content h1 { font-size: 3.5rem; }
+            .hero-content p { border-left: none; padding-left: 0; }
+            .side-stats { margin-top: 50px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
+    <div class="grid-bg"></div>
+    <div class="glow-overlay"></div>
 
-    <div class="hero-card">
-        <div class="profile-img">
-            <i class="fas fa-user"></i>
+    <nav>
+        <div class="logo">JULIAN<span style="color:var(--accent)">.</span></div>
+        <div class="nav-links">
+            <a href="index.html">Start</a>
+            <a href="downloads.html">Pobieralnia</a>
+            <a href="#">O autorze</a>
         </div>
-        <h1>Julian</h1>
-        <p>Witaj w moim centrum projektów. Znajdziesz tutaj moje autorskie narzędzia, skrypty oraz materiały do pobrania.</p>
+    </nav>
 
-        <div class="nav-buttons">
-            <a href="downloads.html" class="btn-primary">
-                <i class="fas fa-download"></i> Przejdź do pobierania
-            </a>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Creative<br>Engineering.</h1>
+            <p>Repozytorium autorskich narzędzi, skryptów i zasobów cyfrowych. Wszystko zaprojektowane z myślą o wydajności i estetyce.</p>
             
-            <a href="#" class="btn-secondary">Dowiedz się więcej o mnie</a>
+            <a href="downloads.html" class="cta-button">
+                WEJDŹ DO REPOZYTORIUM <i class="fas fa-chevron-right"></i>
+            </a>
         </div>
 
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-discord"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
+        <div class="side-stats">
+            <div class="stat-card">
+                <i class="fas fa-layer-group"></i>
+                <span>42+</span>
+                <label>Projektów</label>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-download"></i>
+                <span>12k</span>
+                <label>Pobrań</label>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-code-branch"></i>
+                <span>8k</span>
+                <label>Linii Kodu</label>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <span>500+</span>
+                <label>Userów</label>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="featured-section">
+        <h2 class="section-title">Ostatnie <span>Aktualizacje</span></h2>
+        <p style="color: rgba(255,255,255,0.4)">Najnowsze wersje moich plików są dostępne bezpośrednio w panelu pobierania.</p>
+    </section>
 
 </body>
 </html>
