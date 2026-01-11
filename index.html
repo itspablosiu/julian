@@ -3,197 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Julian | Official Source</title>
+    <title>Resource Hub | Julian</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #030305;
+            --bg: #050507;
             --accent: #9d7cff;
             --glass: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.07);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             background-color: var(--bg);
             color: white;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden; /* Strona typu "Single View" bez przewijania */
         }
 
-        /* TŁO - PEŁNY EKRAN */
-        .grid-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+        /* --- TŁO SIATKI --- */
+        .viewport-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
             background-image: 
-                linear-gradient(rgba(157, 124, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(157, 124, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
+                radial-gradient(circle at 2px 2px, rgba(157, 124, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
         }
 
-        .glow-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 80% 20%, rgba(157, 124, 255, 0.1), transparent 40%),
-                        radial-gradient(circle at 10% 80%, rgba(0, 212, 255, 0.05), transparent 40%);
-            z-index: -1;
+        .glow {
+            position: absolute;
+            top: -10%; right: -10%;
+            width: 50%; height: 50%;
+            background: radial-gradient(circle, rgba(157, 124, 255, 0.08) 0%, transparent 70%);
+            filter: blur(100px);
+            pointer-events: none;
         }
 
-        /* NAGŁÓWEK */
+        /* --- NAVBAR --- */
         nav {
+            padding: 40px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 8%;
-            border-bottom: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 100;
         }
 
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
-        .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 30px; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--accent); }
-
-        /* SEKCJA HERO - FULL WIDTH */
-        .hero {
+        .system-status {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 100px 8%;
-            min-height: 80vh;
+            gap: 10px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
         }
 
-        .hero-content { max-width: 650px; }
-        .hero-content h1 {
-            font-size: 5rem;
-            line-height: 1;
-            margin-bottom: 30px;
-            background: linear-gradient(to bottom right, #fff, #555);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse 2s infinite;
         }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.5);
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* --- LAYOUT --- */
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            padding: 0 6%;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 20px;
+            letter-spacing: -3px;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.4);
+            max-width: 500px;
             margin-bottom: 40px;
-            border-left: 3px solid var(--accent);
-            padding-left: 20px;
         }
 
-        /* PANEL BOCZNY / STATYSTYKI */
-        .side-stats {
+        /* --- PANEL STATYSTYK --- */
+        .data-panel {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            backdrop-filter: blur(20px);
+        }
+
+        .data-point {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .data-value { font-size: 2rem; font-weight: 800; }
+        .data-label { font-size: 0.7rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- PRZYCISKI --- */
+        .action-row {
+            display: flex;
+            align-items: center;
             gap: 20px;
         }
 
-        .stat-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            transition: 0.3s;
-        }
-        .stat-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .stat-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; }
-        .stat-card span { display: block; font-size: 1.5rem; font-weight: 800; }
-        .stat-card label { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-
-        /* PRZYCISK GŁÓWNY */
-        .cta-button {
-            display: inline-flex;
+        .btn-main {
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 22px 45px;
+            border-radius: 18px;
+            font-weight: 800;
+            display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .btn-main:hover {
+            transform: translateX(10px);
             background: var(--accent);
             color: white;
+            box-shadow: 0 20px 40px rgba(157, 124, 255, 0.2);
+        }
+
+        .btn-secondary {
+            color: rgba(255,255,255,0.5);
             text-decoration: none;
-            padding: 20px 45px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(157, 124, 255, 0.3);
         }
 
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(157, 124, 255, 0.5);
-        }
+        .btn-secondary:hover { color: #fff; }
 
-        /* SEKCJA Z PROJEKTAMI - PODGLĄD */
-        .featured-section {
-            padding: 100px 8%;
-            background: rgba(255,255,255,0.01);
-        }
-
-        .section-title { margin-bottom: 50px; font-size: 2rem; }
-        .section-title span { color: var(--accent); }
-
-        /* MOBILE */
         @media (max-width: 1024px) {
-            .hero { flex-direction: column; text-align: center; }
-            .hero-content h1 { font-size: 3.5rem; }
-            .hero-content p { border-left: none; padding-left: 0; }
-            .side-stats { margin-top: 50px; }
+            main { grid-template-columns: 1fr; overflow-y: auto; padding-bottom: 50px; }
+            .hero-text h1 { font-size: 4rem; }
+            body { overflow: auto; }
         }
     </style>
 </head>
 <body>
 
-    <div class="grid-bg"></div>
-    <div class="glow-overlay"></div>
+    <div class="viewport-container">
+        <div class="glow"></div>
 
-    <nav>
-        <div class="logo">JULIAN<span style="color:var(--accent)">.</span></div>
-        <div class="nav-links">
-            <a href="index.html">Start</a>
-            <a href="downloads.html">Pobieralnia</a>
-            <a href="#">O autorze</a>
-        </div>
-    </nav>
+        <nav>
+            <div class="system-status">
+                <div class="status-dot"></div>
+                Source Online / V2.4.0
+            </div>
+            <div class="logo">JULIAN<span style="color:var(--accent)">.</span>PRO</div>
+        </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Creative<br>Engineering.</h1>
-            <p>Repozytorium autorskich narzędzi, skryptów i zasobów cyfrowych. Wszystko zaprojektowane z myślą o wydajności i estetyce.</p>
-            
-            <a href="downloads.html" class="cta-button">
-                WEJDŹ DO REPOZYTORIUM <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
+        <main>
+            <div class="hero-text">
+                <h1>FILES<br>DEPOSITORY</h1>
+                <p>Bezpośredni dostęp do bazy autorskich skryptów, narzędzi deweloperskich i assetów cyfrowych.</p>
+                
+                <div class="action-row">
+                    <a href="downloads.html" class="btn-main">
+                        LISTA PLIKÓW <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#" class="btn-secondary">Discord Support</a>
+                </div>
+            </div>
 
-        <div class="side-stats">
-            <div class="stat-card">
-                <i class="fas fa-layer-group"></i>
-                <span>42+</span>
-                <label>Projektów</label>
+            <div class="data-panel">
+                <div class="data-point">
+                    <span class="data-value">124</span>
+                    <span class="data-label">Aktywne Pliki</span>
+                </div>
+                <div class="data-point">
+                    <span class="data-value">12.5k</span>
+                    <span class="data-label">Transfer (GB)</span>
+                </div>
+                <div class="data-point">
+                    <span class="data-value">99.9%</span>
+                    <span class="data-label">Uptime</span>
+                </div>
+                <div class="data-point">
+                    <span class="data-value">GPL</span>
+                    <span class="data-label">Licencja</span>
+                </div>
             </div>
-            <div class="stat-card">
-                <i class="fas fa-download"></i>
-                <span>12k</span>
-                <label>Pobrań</label>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-code-branch"></i>
-                <span>8k</span>
-                <label>Linii Kodu</label>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <span>500+</span>
-                <label>Userów</label>
-            </div>
-        </div>
-    </section>
-
-    <section class="featured-section">
-        <h2 class="section-title">Ostatnie <span>Aktualizacje</span></h2>
-        <p style="color: rgba(255,255,255,0.4)">Najnowsze wersje moich plików są dostępne bezpośrednio w panelu pobierania.</p>
-    </section>
+        </main>
+    </div>
 
 </body>
 </html>
