@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szczegóły Projektu - Julian</title>
+    <title>Julian by Pablosiu - Wiki</title>
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.04);
@@ -28,125 +28,150 @@
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 600px; height: 600px;
+            width: 700px; height: 700px;
             background: radial-gradient(circle, rgba(130, 80, 255, 0.1) 0%, transparent 70%);
-            filter: blur(60px);
+            filter: blur(80px);
             z-index: -1;
         }
 
-        /* Główny kontener */
         .info-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 50px;
+            padding: 60px 40px;
             text-align: center;
-            max-width: 500px;
+            max-width: 450px;
             width: 90%;
         }
 
         h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
             letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 30px;
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 35px;
+            font-size: 1rem;
         }
 
-        /* Przycisk wyzwalający okno */
         .open-modal-btn {
-            background: transparent;
-            color: #fff;
-            border: 1px solid var(--glass-border);
-            padding: 15px 30px;
-            border-radius: 10px;
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: 0.3s;
+            transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .open-modal-btn:hover {
-            background: #fff;
-            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(157, 124, 255, 0.3);
+            background: var(--accent);
+            color: #fff;
         }
 
-        /* --- STYL OKNA MODALNEGO --- */
+        /* --- MODAL --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            display: none; /* Ukryte na start */
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 20px;
         }
 
         .modal-content {
-            background: #12121a;
+            background: #0f0f16;
             border: 1px solid var(--glass-border);
             padding: 40px;
-            border-radius: 25px;
-            max-width: 450px;
-            width: 85%;
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
-            transform: translateY(20px);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-content h2 {
-            color: var(--accent);
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-
-        .modal-content ul {
+        /* Układ dwukolumnowy dla listy */
+        .enchant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
             text-align: left;
-            padding: 0;
+            margin-top: 20px;
+        }
+
+        .enchant-category h2 {
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(157, 124, 255, 0.2);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .enchant-list {
             list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .enchant-list li {
+            font-size: 0.9rem;
+            margin-bottom: 6px;
             color: rgba(255, 255, 255, 0.7);
         }
 
-        .modal-content li {
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 5px;
+        .enchant-list li b {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .enchant-list li code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent);
+            font-family: monospace;
+            font-size: 0.85rem;
         }
 
         .close-btn {
-            margin-top: 25px;
-            background: var(--glass-bg);
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
+            font-weight: 600;
             transition: 0.3s;
         }
 
-        .close-btn:hover {
-            background: rgba(255, 0, 0, 0.2);
-            border-color: rgba(255, 0, 0, 0.3);
-        }
+        .close-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* Scrollbar dla modala */
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -154,37 +179,88 @@
     <div class="bg-blur"></div>
 
     <div class="info-card">
-        <h1>Projekt Alpha</h1>
-        <p>Kliknij poniżej, aby zobaczyć szczegółową dokumentację i wymagania techniczne tego skryptu.</p>
-        <button class="open-modal-btn" onclick="toggleModal()">Szczegóły projektu</button>
+        <h1>ID Zaklęć</h1>
+        <p>Pełna lista identyfikatorów Minecraft potrzebnych do konfiguracji przedmiotów.</p>
+        <button class="open-modal-btn" onclick="toggleModal()">Otwórz listę</button>
     </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <h2>Specyfikacja</h2>
-            <ul>
-                <li><strong>Wersja:</strong> 2.4.0 (Stable)</li>
-                <li><strong>Wymagania:</strong> Python 3.9+, Node.js 16+</li>
-                <li><strong>Ostatni skan:</strong> Bezpieczny (Brak wirusów)</li>
-                <li><strong>Licencja:</strong> MIT Personal Use</li>
-                <li><strong>Wielkość po rozpakowaniu:</strong> 124 MB</li>
-            </ul>
-            <button class="close-btn" onclick="toggleModal()">Zamknij</button>
+            <div class="enchant-grid">
+                
+                <div class="enchant-category">
+                    <h2>🛡️ Pancerz</h2>
+                    <ul class="enchant-list">
+                        <li><b>Protection:</b> <code>protection</code></li>
+                        <li><b>Feather Falling:</b> <code>fall_protection</code></li>
+                        <li><b>Fire Protection:</b> <code>fire_protection</code></li>
+                        <li><b>Blast Protection:</b> <code>blast_protection</code></li>
+                        <li><b>Projectile Protection:</b> <code>projectile_protection</code></li>
+                        <li><b>Respiration:</b> <code>respiration</code></li>
+                        <li><b>Aqua Affinity:</b> <code>aqua_affinity</code></li>
+                        <li><b>Thorns:</b> <code>thorns</code></li>
+                        <li><b>Depth Strider:</b> <code>depth_strider</code></li>
+                        <li><b>Frost Walker:</b> <code>frost_walker</code></li>
+                    </ul>
+                </div>
+
+                <div class="enchant-category">
+                    <h2>⚔️ Miecz</h2>
+                    <ul class="enchant-list">
+                        <li><b>Sharpness:</b> <code>sharpness</code></li>
+                        <li><b>Smite:</b> <code>smite</code></li>
+                        <li><b>Bane of Arthropods:</b> <code>bane_of_arthropods</code></li>
+                        <li><b>Knockback:</b> <code>knockback</code></li>
+                        <li><b>Fire Aspect:</b> <code>fire_aspect</code></li>
+                        <li><b>Looting:</b> <code>looting</code></li>
+                        <li><b>Sweeping Edge:</b> <code>sweeping_edge</code></li>
+                    </ul>
+                </div>
+
+                <div class="enchant-category">
+                    <h2>⛏️ Narzędzia</h2>
+                    <ul class="enchant-list">
+                        <li><b>Efficiency:</b> <code>efficiency</code></li>
+                        <li><b>Silk Touch:</b> <code>silk_touch</code></li>
+                        <li><b>Unbreaking:</b> <code>unbreaking</code></li>
+                        <li><b>Fortune:</b> <code>fortune</code></li>
+                    </ul>
+                </div>
+
+                <div class="enchant-category">
+                    <h2>🏹 Łuk & Kusza</h2>
+                    <ul class="enchant-list">
+                        <li><b>Power:</b> <code>power</code></li>
+                        <li><b>Punch:</b> <code>punch</code></li>
+                        <li><b>Flame:</b> <code>flame</code></li>
+                        <li><b>Infinity:</b> <code>infinity</code></li>
+                        <li><b>Quick Charge:</b> <code>quick_charge</code></li>
+                        <li><b>Multishot:</b> <code>multishot</code></li>
+                        <li><b>Piercing:</b> <code>piercing</code></li>
+                    </ul>
+                </div>
+
+                <div class="enchant-category">
+                    <h2>✨ Inne</h2>
+                    <ul class="enchant-list">
+                        <li><b>Mending:</b> <code>mending</code></li>
+                        <li><b>Curse of Vanishing:</b> <code>vanishing_curse</code></li>
+                        <li><b>Curse of Binding:</b> <code>binding_curse</code></li>
+                    </ul>
+                </div>
+
+            </div>
+            <button class="close-btn" onclick="toggleModal()">Zamknij podgląd</button>
         </div>
     </div>
 
     <script>
         function toggleModal() {
-            const modal = document.getElementById('modalOverlay');
-            modal.classList.toggle('active');
+            document.getElementById('modalOverlay').classList.toggle('active');
         }
-
-        // Zamykanie po kliknięciu poza okienkiem
         window.onclick = function(event) {
             const modal = document.getElementById('modalOverlay');
-            if (event.target == modal) {
-                modal.classList.remove('active');
-            }
+            if (event.target == modal) modal.classList.remove('active');
         }
     </script>
 
